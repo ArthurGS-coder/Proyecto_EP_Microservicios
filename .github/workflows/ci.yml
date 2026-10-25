@@ -1,0 +1,24 @@
+name: Integracion Continua EP
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Configurar Java 17
+      uses: actions/setup-java@v3
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+        
+    - name: Compilar y Probar order-service
+      run: mvn clean package --file order-service/pom.xml
+      
+    - name: Compilar y Probar catalog-service
+      run: mvn clean package --file catalog-service/pom.xml
